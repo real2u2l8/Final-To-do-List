@@ -1,6 +1,9 @@
 from django.db import models
+from django.db.models import Max
+
 
 # Create your models here.
+
 
 class ProjectCode(models.Model):
     pcode = models.CharField(primary_key=True, max_length=4)
@@ -22,6 +25,15 @@ class TodoList(models.Model):
     end_date = models.DateField(blank=True, null=True)
 
     def todo_save(self):
+        self.is_complete = 0
+        if TodoList.objects.all().aggregate(Max('priority'))['priority__max'] is None : self.priority = 1
+        else : self.priority = int(TodoList.objects.latest('priority').priority) + 1
+        self.pcode = 1
+        self.user_id = 'guest'
+        self.save()
+
+    def todo_update_is_complete(self, complete):
+        self.is_complete = complete
         self.save()
 
     class Meta:

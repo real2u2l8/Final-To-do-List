@@ -1,5 +1,5 @@
 {% extends 'todo_main/common/header.html' %}
-{% load staticfiles %}
+{% load static %}
 {% block main %}
 
 <div class="col-md-12">
@@ -8,7 +8,7 @@
            {%csrf_token%}
 
            {{form.as_p}}
-           <button type="submit" class="save btn btn-default">Save</button>
+           <button type="submit" class="btn btn-warning">Save</button>
        </form>
     </div>
 
